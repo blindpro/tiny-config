@@ -1,0 +1,88 @@
+class tiny_config
+{
+dictionary data;
+bool load(string filename)
+{
+if(file_exists(filename))
+{
+string output = file_get_contents(filename);
+to_dictionary(output);
+return true;
+}
+else
+{
+return false;
+}
+}
+bool save(string filename)
+{
+return file_put_contents(filename,to_string(),false);
+}
+private void to_dictionary(string file_data)
+{
+string[] input = file_data.split("\r\n");
+for(int i =0; i<input.length(); i++)
+{
+string line = input[i];
+if(line == "" or line.starts_with("//") or line.starts_with("#"))
+{
+continue;
+}
+int index = line.find_first_of(":");
+if(index == -1)
+{
+continue;
+}
+string key = line.slice(0,index);
+string value = line.slice(index+1,line.length());
+data.set(key,value);
+}
+}
+private string to_string()
+{
+string output = "";
+string[] keys = data.get_keys();
+for(int i = 0; i<keys.length(); i++)
+{
+string key = keys[i];
+output+=key+":";
+output+=get(key);
+output+="\r\n";
+}
+return output;
+}
+void set(string key, string value)
+{
+data.set(key,value);
+}
+string get(string key, string default_value = "")
+{
+string value = "";
+ data.get(key,value);
+if(value == "")
+{
+return default_value;
+}
+return value;
+}
+void remove(string key)
+{
+data.delete(key);
+}
+string[] get_keys()
+{
+return data.get_keys();
+}
+bool is_empty()
+{
+return data.is_empty();
+}
+bool key_exists(string key)
+{
+return data.exists(key);
+}
+void clear()
+{
+data.delete_all();
+}
+}
