@@ -3,9 +3,9 @@ class tiny_config
 dictionary data;
 bool load(string filename)
 {
-if(file_exists(filename))
+if(file_exists(filename+".tcfg"))
 {
-string output = file_get_contents(filename);
+string output = file_get_contents(filename+".tcfg");
 to_dictionary(output);
 return true;
 }
@@ -16,7 +16,7 @@ return false;
 }
 bool save(string filename)
 {
-return file_put_contents(filename,to_string(),false);
+return file_put_contents(filename+".tcfg",to_string(),false);
 }
 private void to_dictionary(string file_data)
 {
