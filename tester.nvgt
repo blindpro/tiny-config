@@ -1,0 +1,11 @@
+#include"tiny_config.nvgt"
+#include"speech.nvgt"
+tiny_config conf;
+void main()
+{
+conf.set("testing","true");
+conf.set("This is a key","This is a value");
+conf.save("test_conf");
+speak("file saved");
+exit();
+}
